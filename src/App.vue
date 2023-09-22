@@ -1,11 +1,11 @@
 <script setup>
   import { ref } from 'vue'
   const list = ref([
-    {id: 1, completed: true, title: 'Learn HTML & CSS'},
-    {id: 2, completed: false, title: 'Dive into JavaScript'},
-    {id: 3, completed: false, title: 'Learn PHP'},
-    {id: 4, completed: true, title: 'Start Laravel & make a project'},
-    {id: 5, completed: false, title: 'Design with VueJS'}
+    {id: 1, completed: true, title: 'Suddenly I saw you'},
+    {id: 2, completed: false, title: 'Immediately I chose you'},
+    {id: 3, completed: false, title: 'Then arranged to meet you'},
+    {id: 4, completed: true, title: 'The result was confused'},
+    {id: 5, completed: false, title: 'But, I failed to forget you'}
   ])
   let edit = ref(false)
   const showForm = () => {
@@ -18,9 +18,11 @@
 
   const newTask = ref('')
   const addItem = () => {
-    list.value.push({
-      completed: false, title: newTask.value
-    })
+    if(newTask.value !== '') {
+      list.value.push({
+        id: list.value.length + 1, completed: false, title: newTask.value
+      })
+    }
     newTask.value = ''
   }
 
@@ -33,12 +35,12 @@
   <div class="container">
     <div class="card">
       <div class="header">
-        <div class="title">{{ list.length }} Things to do</div>
+        <div class="title">{{ list.length }} steps of my Life</div>
       </div>
       <div class="body">
 
         <ul>
-            <li v-for="item in list" :key="item.id" @click="toggleCompletion(item)" :class="{ completed : item.completed}"><input :checked="item.completed" type="radio"> {{ item.title }}</li>
+            <li v-for="item in list" :key="item.id" @click="toggleCompletion(item)" :class="{ completed : item.completed}"><input :checked="item.completed" type="radio">{{ item.title }}</li>
         </ul>
 
         <button @click="showForm" class="add">+</button>
@@ -48,7 +50,7 @@
 
     <div class="new_item_card" v-if="edit">
       <div class="body">
-        <form @submit.prevent="addItem">
+        <form @submit.prevent.enter="addItem">
           <input
             type="text"
             v-model.trim="newTask"
@@ -130,6 +132,7 @@
         font-size: 1.7rem;
         left: 50%;
         transform: translateX(-50%) translateY(50%);
+        transition: 0.5s;
       }
       .add:hover {
         background: rgba(15, 143, 152, 1);
@@ -177,6 +180,7 @@
       font-size: 1.7rem;
       left: 50%;
       transform: translateX(-50%) translateY(5%) rotate(45deg);
+      transition: 0.5s;
     }
     .cross:hover {
       cursor: pointer;
