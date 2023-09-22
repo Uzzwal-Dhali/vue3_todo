@@ -2,8 +2,12 @@
   import { ref } from 'vue'
   const list = ref([
     'Buy an apple watch',
-    'Buy a Macbokk'
+    'Buy a Macbook'
   ])
+  let edit = ref(false)
+  const showForm = () => {
+    edit.value = true
+  }
   const newTask = ref('')
   const addItem = () => {
     list.value.push(newTask.value)
@@ -17,16 +21,22 @@
       <div class="header">
         <div class="title">Things to do</div>
         <div class="actions">
-          <div class="add">+</div>
+          <div @click="showForm" class="add">+</div>
         </div>
       </div>
-      <form @submit.prevent="addItem">
-        <input type="text" v-model.trim="newTask">
-        <button type="submit">Add</button>
-      </form>
-      <ul>
-        <li v-for="item in list" :key="item.id" v-text="item" />
+      <div class="body">
+        <form @submit.prevent="addItem" v-if="edit">
+          <input
+            type="text"
+            v-model.trim="newTask"
+            placeholder="Type and press enter"
+          >
+          <button type="submit">Add</button>
+        </form>
+        <ul>
+          <li v-for="item in list" :key="item.id" v-text="item" />
       </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -39,12 +49,15 @@
   justify-content: center;
   align-items: center;
   .card {
-    background: white;
-    padding: 1.5em;
-    border-radius: 1em;
+    min-width: 350px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.075em;
     .header {
+      background: white;
+      padding: 1.5em 1.5em 0.65em;
+      border-radius: 1em 1em 0 0;
       font-size: 1.2em;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.25);
       display: flex;
       justify-content: space-between;
       .actions {
@@ -53,28 +66,36 @@
         }
       }
     }
-    form {
-      padding: 1em 0;
-      display: flex;
-      gap: 0.25em;
-      input {
-        border-radius: 0.25em;
-        outline: none;
-        border: 1px solid rgba(44, 53, 57, 0.5);
-        padding: 0.25em 0.75em;
+
+    .body {
+      background: white;
+      padding: 0.75em 1.5em 1.5em;
+      border-radius: 0 0 1em 1em;
+      form {
+        padding: 1em 0 0.5em;
+        display: flex;
+        gap: 0.25em;
+        justify-content: space-between;
+        input {
+          outline: none;
+          border: none;
+          border-bottom: 1px solid rgba(44, 53, 57, 0.5);
+          padding: 0.25em 0em;
+        }
+        button {
+          background: rgb(15, 143, 152);
+          border-radius: 0.35em;
+          border: none;
+          color: white;
+          padding: 0.3em 0.75em;
+        }
       }
-      button {
-        background: rgb(15, 143, 152);
-        border-radius: 0.35em;
-        border: none;
-        color: white;
-        padding: 0.3em 0.75em;
-      }
-    }
-    ul {
-      list-style: none;
-      li {
-        color: rgba(44, 53, 57, 0.75)
+      ul {
+        margin-top: 0.5em;
+        list-style: none;
+        li {
+          color: rgba(44, 53, 57, 0.75)
+        }
       }
     }
   }
