@@ -1,8 +1,11 @@
 <script setup>
   import { ref } from 'vue'
   const list = ref([
-    'Buy an apple watch',
-    'Buy a Macbook'
+    {id: 1, completed: true, title: 'Learn HTML & CSS'},
+    {id: 2, completed: false, title: 'Dive into JavaScript'},
+    {id: 3, completed: false, title: 'Learn PHP'},
+    {id: 4, completed: true, title: 'Start Laravel & make a project'},
+    {id: 5, completed: false, title: 'Design with VueJS'}
   ])
   let edit = ref(false)
   const showForm = () => {
@@ -10,8 +13,14 @@
   }
   const newTask = ref('')
   const addItem = () => {
-    list.value.push(newTask.value)
+    list.value.push({
+      completed: false, title: newTask.value
+    })
     newTask.value = ''
+  }
+
+  const toggleCompletion = (item) => {
+    item.completed = !item.completed
   }
 </script>
 
@@ -24,7 +33,7 @@
       <div class="body">
 
         <ul>
-          <li v-for="item in list" :key="item.id" v-text="item" />
+            <li v-for="item in list" :key="item.id" @click="toggleCompletion(item)" :class="{ completed : item.completed}"><input :checked="item.completed" type="radio"> {{ item.title }}</li>
         </ul>
 
         <button @click="showForm" class="add">+</button>
@@ -99,8 +108,24 @@
       ul {
         margin-top: 0.5em;
         list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
         li {
-          color: rgba(44, 53, 57, 0.75)
+          cursor: pointer;
+          display: flex;
+          gap: 0.25rem;
+          color: rgba(44, 53, 57, 0.65);
+          transition: all 0.5s ease-in;
+          input[type='checkbox'] {
+            border-radius: 50%;
+          }
+        }
+        li:hover {
+          cursor: pointer;
+        }
+        .completed {
+          color: rgba(44, 53, 57, 0.25);
         }
       }
       .add {
