@@ -53,7 +53,7 @@
         <form @submit.prevent.enter="addItem">
           <input
             type="text"
-            v-model.trim="newTask"
+            v-model.trim.toUpperCase="newTask"
             placeholder="Type and press enter"
           >
         </form>
@@ -65,7 +65,7 @@
 
 <style lang="scss" scoped>
 .container {
-  background: #36454F;
+  background: rgba(240,244,211,1);
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -80,6 +80,7 @@
     display: flex;
     flex-direction: column;
     gap: 0.005em;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
     .header {
       font-size: 1.2em;
       display: flex;
@@ -103,11 +104,23 @@
         li {
           cursor: pointer;
           display: flex;
+          align-items: center;
           gap: 0.25rem;
           color: rgba(44, 53, 57, 0.65);
           transition: all 0.5s ease-in;
-          input[type='checkbox'] {
+          input[type='radio'] {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 1rem;
+            height: 1rem;
             border-radius: 50%;
+            border: 0.0025rem solid gray;
+          }
+          input[type='radio']:focus,
+          input[type='radio']:checked {
+           appearance: none;
+           border: 0.0025rem solid rgba(44, 53, 57, 0.25);
           }
         }
         li:hover {
@@ -144,6 +157,7 @@
     padding: 1.5rem 1.8rem;
     border-radius: 0.75rem;
     min-width: 330px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
     .body {
 
       form {
